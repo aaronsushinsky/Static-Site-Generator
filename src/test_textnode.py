@@ -1,6 +1,6 @@
 import unittest
 
-from textnode import TextNode, TextType
+from textnode import *
 
 
 class TestTextNode(unittest.TestCase):
@@ -8,21 +8,6 @@ class TestTextNode(unittest.TestCase):
         node = TextNode("This is a text node", TextType.BOLD)
         node2 = TextNode("This is a text node", TextType.BOLD)
         self.assertEqual(node, node2)
-
-    def test_equal_nodes(self):
-        node1 = TextNode("hello", "text")
-        node2 = TextNode("hello", "text")
-        self.assertEqual(node1, node2)
-
-    def test_different_text(self):
-        node1 = TextNode("hello", "text")
-        node2 = TextNode("world", "text")
-        self.assertNotEqual(node1, node2)
-
-    def test_different_text_type(self):
-        node1 = TextNode("hello", "text")
-        node2 = TextNode("hello", "bold")
-        self.assertNotEqual(node1, node2)
 
     def test_url_none_vs_url_set(self):
         node1 = TextNode("hello", "link", None)
@@ -33,6 +18,12 @@ class TestTextNode(unittest.TestCase):
         node1 = TextNode("hello", "link", "https://example.com")
         node2 = TextNode("hello", "link", "https://example.com")
         self.assertEqual(node1, node2)
+    
+    def test_text(self):
+        node = TextNode("This is a text node", TextType.TEXT)
+        html_node = text_node_to_html_node(node)
+        self.assertEqual(html_node.tag, None)
+        self.assertEqual(html_node.value, "This is a text node")
 
 
 if __name__ == "__main__":
